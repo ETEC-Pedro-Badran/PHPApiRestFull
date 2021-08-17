@@ -7,7 +7,7 @@ class Usuario {
     public $email;
     private $senha;
 
-    public setSenha($senha) {
+    public function setSenha($senha) {
         $this->senha = $senha;
     }
 
@@ -17,7 +17,8 @@ class Usuario {
 
     public function insert(){
         $con = Conexao::getInstance();
-        $sql = "insert into usuario (nome, email, senha) values (:nome, :email, :senha)";
+        $sql = "insert into usuario (nome, email, senha) \n"
+        ." values (:nome, :email, :senha)";
         $st = $con->prepare($sql);
         $st->bindValue(":nome",$this->nome);
         $st->bindValue(":email",$this->email);
@@ -26,14 +27,15 @@ class Usuario {
             $st->execute();
             return ['ok'=>true];
         } catch(PDOException $e) {
-            return ['ok'=>false,erro:$e->getMessage()];
+            return ['ok'=>false,'erro'=>$e->getMessage()];
         }
         
     }
 
     public function valida(){
         $con = Conexao::getInstance();
-        $sql = "select id, nome from usuario where email = :email and senha = :senha";
+        $sql = "select id, nome from usuario \n".
+        "where email = :email and senha = :senha";
         $st = $con->prepare($sql);
         $st->bindValue(":email",$this->email);
         $st->bindValue(":senha",$this->senha);

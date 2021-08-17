@@ -1,14 +1,14 @@
 <?php
 require_once "..\domain\usuario.class.php";
 
-//validar
-if (isset($_POST["op"]=="inc") && 
+//valida
+if (isset($_POST["op"]) && $_POST["op"]=="inc") {
     $usuario = new Usuario();
     $usuario->email = $_POST["email"];
     $usuario->nome = $_POST["nome"];
     $usuario->setSenha($_POST["senha"]);
     return json_encode($usuario->incluir());
-) else if (isset($_POST["email"]) && 
+ } else if (isset($_POST["email"]) && 
     isset($_POST["senha"])) {
     $usuario = new Usuario();
     $usuario->email = $_POST["email"];
