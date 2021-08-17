@@ -7,19 +7,36 @@ class Usuario {
     public $email;
     private $senha;
 
+    public setSenha($senha) {
+        $this->senha = $senha;
+    }
+
     public function get(){
     }
 
-    public function insert(){
 
+    public function insert(){
+        $con = Conexao::getInstance();
+        $sql = "insert into usuario (nome, email, senha) values (:nome, :email, :senha)";
+        $st = $con->prepare($sql);
+        $st->bindValue(":nome",$this->nome);
+        $st->bindValue(":email",$this->email);
+        $st->bindValue(":senha",$this->senha);
+        try {
+            $st->execute();
+            return ['ok'=>true];
+        } catch(PDOException $e) {
+            return ['ok'=>false,erro:$e->getMessage()];
+        }
+        
     }
 
-    public function valida($senha){
+    public function valida(){
         $con = Conexao::getInstance();
         $sql = "select id, nome from usuario where email = :email and senha = :senha";
         $st = $con->prepare($sql);
         $st->bindValue(":email",$this->email);
-        $st->bindValue(":senha",$senha);
+        $st->bindValue(":senha",$this->senha);
         $st->execute();
         $registros = $st->fetchAll();
         if(count($registros)>0) {
