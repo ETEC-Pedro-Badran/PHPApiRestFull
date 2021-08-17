@@ -8,8 +8,15 @@ class Conexao {
     const passwd = '';
 
     static function getInstance(){
-        return PDO('mysql:host='.Conexao::host.';dbname='.Conexao::dbname,
-        usuario, passwd);
+        return new PDO('mysql:host='.Conexao::host.';dbname='.Conexao::dbname,
+        Conexao::usuario, Conexao::passwd);
     } 
 
 }
+
+/*
+create table usuario ( id int primary key AUTO_INCREMENT,
+                      nome varchar(100),
+                      email varchar(100) not null,
+                      senha varchar(20) not null )
+*/

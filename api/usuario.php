@@ -6,9 +6,8 @@ if (isset($_POST["email"]) &&
     isset($_POST["senha"])) {
     
     $usuario = new Usuario();
-    $usuario->id = 1;
-    $usuario->email = "teste@teste.com.br";
-
+    $usuario->email = $_POST["email"];
+    $usuario->valida($_POST["senha"]);
     echo json_encode($usuario);
 } else { 
    echo http_response_code(400);
