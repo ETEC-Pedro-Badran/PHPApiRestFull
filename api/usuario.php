@@ -8,7 +8,10 @@ if (isset($_POST["email"]) &&
     $usuario = new Usuario();
     $usuario->email = $_POST["email"];
     $usuario->valida($_POST["senha"]);
-    echo json_encode($usuario);
+    if ($usuario->id>0)
+      echo json_encode($usuario);
+    else 
+      echo http_response_code(403);   
 } else { 
    echo http_response_code(400);
 }

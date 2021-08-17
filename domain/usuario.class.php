@@ -17,17 +17,15 @@ class Usuario {
     public function valida($senha){
         $con = Conexao::getInstance();
         $sql = "select id, nome from usuario where email = :email and senha = :senha";
-        $con->prepare($sql);
-        $con->bindValue(":email",$this->email);
-        $con->bindValue(":senha",$senha);
-        $con->execute();
-        $registros = $con->fetchAll();
+        $st = $con->prepare($sql);
+        $st->bindValue(":email",$this->email);
+        $st->bindValue(":senha",$senha);
+        $st->execute();
+        $registros = $st->fetchAll();
         if(count($registros)>0) {
-            $this->id = $registro[0]["id"];
-            $this->nome = $registro[0]["nome"];
+            $this->id = $registros[0]["id"];
+            $this->nome = $registros[0]["nome"];
         }
-    
-
     }
 
 }
